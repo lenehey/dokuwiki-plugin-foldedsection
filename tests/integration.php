@@ -86,5 +86,28 @@ if (is_dir(DOKU_PLUGIN . 'folded')) {
     fsCheck($xp->query('//a[@class="foldedsection-toggle"]')->length === 1, 'New delimiter must take priority over original folded syntax');
 }
 
+if (is_dir(DOKU_PLUGIN . 'wrap')) {
+    $comparison = file_get_contents(__DIR__ . '/fixtures/indented-comparison.txt');
+    $html = renderWiki($comparison . "\n\nOutside the wrapper.");
+    $xp = doc($html);
+    fsCheck($xp->query('//div[contains(@class,"wrap_indent")]/p/strong/em')->length === 1, 'Indented introduction must retain bold/italic formatting');
+    fsCheck($xp->query('//div[contains(@class,"wrap_indent")]/p/a[@class="foldedsection-toggle"]')->length === 1, 'Indented label must use foldedsection while original folded remains enabled');
+    fsCheck($xp->query('//div[contains(@class,"wrap_indent")]/div[@class="foldedsection-body"]/p')->length === 1, 'Expanded content must be a separate block within the indentation wrapper');
+    fsCheck($xp->query('//div[@class="foldedsection-body"]//em/a')->length === 1, 'Expanded content must retain the linked case citation');
+    fsCheck(!str_contains($html, 'class="folder'), 'Original folded must not consume the new delimiters inside a wrapper');
+    fsCheck(!str_contains($xp->query('//body')->item(0)->textContent, '=='), 'No delimiter fragments may remain visible');
+    fsCheck($xp->query('//div[contains(@class,"wrap_indent")]//p[contains(.,"Outside the wrapper")]')->length === 0, 'Trailing paragraphs must remain outside the wrapper');
+
+    foreach (['WRAP', 'div'] as $tag) {
+        $html = renderWiki("<$tag indent>\nIntro ++== **//More//** |\nFirst\n++==\n\nIntro ++== Second |\nSecond\n++==\n</$tag>");
+        $xp = doc($html);
+        fsCheck($xp->query('//div[contains(@class,"wrap_indent")]/p/a[@class="foldedsection-toggle"]')->length === 2, "Multiple labels must work inside $tag");
+        fsCheck($xp->query('//div[contains(@class,"wrap_indent")]/div[@class="foldedsection-body"]')->length === 2, "Multiple body blocks must stay inside $tag");
+    }
+
+    $html = renderWiki("<wrap>Inline ++== Unsupported |\nBody\n++==</wrap>");
+    fsCheck(!str_contains($html, 'foldedsection-toggle'), 'Inline wrappers must not accept a block section');
+}
+
 echo "Passed $checks integration checks.\n";
 

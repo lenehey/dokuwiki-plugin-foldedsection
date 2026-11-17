@@ -14,8 +14,13 @@ class syntax_plugin_foldedsection_section extends DokuWiki_Syntax_Plugin
 
     public function connectTo($mode)
     {
-        // Top-level paragraphs only: labels in tables, lists and headings are excluded.
-        if ($mode !== 'base') return;
+        // Also connect inside paragraph-bearing plugin containers (e.g. Wrap's
+        // <div indent> and <WRAP>). Inline/protected modes cannot contain our div.
+        if ($mode !== 'base') {
+            if (strpos($mode, 'plugin_') !== 0 || $mode === 'plugin_foldedsection_section') return;
+            $parent = plugin_load('syntax', substr($mode, 7));
+            if (!$parent || $parent->getPType() !== 'stack') return;
+        }
         $this->Lexer->addEntryPattern(
             '\+\+==[^\n|]+\|[ \t]*\n(?=[\s\S]*?\n[ \t]*\+\+==[ \t]*(?=\n|$))',
             $mode,

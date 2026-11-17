@@ -1,0 +1,7 @@
+<div indent>
+**Comparison with //Automation Middleware Solutions//** ++== (Read more) |
+
+The eligibility holding is consistent with the district court's analysis in //[[legal:eligible_subject_matter:start:examples#middle_translation_software_layer_invalid_under_alice_posted_09_18_18|Automation Middleware Solutions, Inc. v. Invensys Systems, Inc.]]// (E.D. Tex. 2017), affirmed without opinion under Rule 36 (Fed. Cir. 2018). There, the district court held that a middleware architecture enabling software applications to control heterogeneous motion-control devices was directed to an abstract translating layer, notwithstanding its interoperability benefits. Similarly, in //AGI SureTrack//, the Federal Circuit concluded that using equipment-specific profiles to interpret data from different agricultural implements did not establish an improvement in computer functionality. Both decisions illustrate that improving interoperability among heterogeneous devices, without claiming a sufficiently specific technological improvement, does not itself establish patent eligibility under § 101.
+++==
+
+</div>

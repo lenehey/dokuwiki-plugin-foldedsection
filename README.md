@@ -31,7 +31,18 @@ The expanded content.
 ++==
 ```
 
-For version 0.1, use sections in ordinary top-level paragraphs. Nested folded sections, labels inside headings/lists/tables, and text after the opening `|` on the same line are unsupported. A missing closing delimiter leaves the opening syntax as ordinary text. Keep bold/italic markup in the introduction balanced before the opening delimiter.
+Use sections in ordinary paragraphs, including paragraphs inside block containers such as the Wrap plugin's `<div indent>` and `<WRAP indent>`. Keep the complete section, including its closing delimiter, inside its surrounding container. Nested folded sections, labels inside headings/lists/tables or inline `<wrap>` elements, and text after the opening `|` on the same line are unsupported. A missing closing delimiter leaves the opening syntax as ordinary text. Keep bold/italic markup in the introduction balanced before the opening delimiter.
+
+For example, this works with both Wrap and the original folded plugin enabled:
+
+```text
+<div indent>
+**Comparison with //another decision//** ++== (Read more) |
+
+The expanded comparison goes here.
+++==
+</div>
+```
 
 ## Install
 
@@ -62,7 +73,7 @@ php tests/integration.php /path/to/dokuwiki
 node --check script.js
 ```
 
-The integration checks exercise DokuWiki's actual parser/renderers: paragraph placement, body blocks, label formatting and escaping, multiple sections, unique IDs, protected code, malformed input, and coexistence with the original folded plugin when installed.
+The integration checks exercise DokuWiki's actual parser/renderers: paragraph placement, body blocks, label formatting and escaping, multiple sections, unique IDs, protected code, malformed input, and coexistence with the original folded plugin when installed. With Wrap installed, they also check the indented comparison fixture and multiple sections inside `<div>` and `<WRAP>` blocks. GitHub Actions installs both plugins for these checks.
 
 ## License
 

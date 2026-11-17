@@ -1,0 +1,6 @@
+base   foldedsection
+author Leonard Heyman
+date   2026-11-17
+name   Folded Section
+desc   Inline bold/italic disclosure labels with styled block sections
+url    https://github.com/lenehey/dokuwiki-plugin-foldedsection

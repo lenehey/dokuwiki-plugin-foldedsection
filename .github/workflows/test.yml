@@ -1,0 +1,21 @@
+name: Test
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install test wiki and original folded plugin
+        run: |
+          git clone --depth 1 --branch stable https://github.com/dokuwiki/dokuwiki.git "$RUNNER_TEMP/dokuwiki"
+          git clone --depth 1 https://github.com/dokufreaks/plugin-folded.git "$RUNNER_TEMP/dokuwiki/lib/plugins/folded"
+          mkdir -p "$RUNNER_TEMP/dokuwiki/lib/plugins/foldedsection"
+          cp -R helper.php plugin.info.txt syntax style.css script.js "$RUNNER_TEMP/dokuwiki/lib/plugins/foldedsection/"
+      - name: Check PHP and JavaScript syntax
+        run: |
+          find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+          node --check script.js
+      - name: Run DokuWiki parser integration checks
+        run: php tests/integration.php "$RUNNER_TEMP/dokuwiki"

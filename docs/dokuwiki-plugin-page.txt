@@ -90,6 +90,12 @@ If old output persists after an update, reload the page with the ''purge=true'' 
 
 Report issues with your DokuWiki/PHP versions, enabled container plugins, and a minimal wikitext example at the bug tracker above.
 
+===== Acknowledgments =====
+
+Folded Section builds on the approach and visual design of the original [[plugin:folded|Folded plugin]], by Michael Hamann, Fabian van-de-l_Isle, Christopher Smith, and Esther Brunner, with contributions from its community. Its folding behavior and styled content area provided the starting point for this plugin. Thank you to the Folded authors and contributors for their work.
+
+The original project's [[https://github.com/dokufreaks/plugin-folded|source repository]] is available under GPL version 2. Folded Section adds its own ''++=='' syntax, inline bold/italic labels, and paragraph-aware block placement.
+
 ===== Development and license =====
 
 Source, changelog, automated parser checks, and native Extension Manager archive-install checks are maintained in the source repository.

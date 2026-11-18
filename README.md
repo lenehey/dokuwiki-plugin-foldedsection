@@ -108,6 +108,12 @@ php tests/integration.php /path/to/disposable/dokuwiki
 
 Report issues at [GitHub Issues](https://github.com/lenehey/dokuwiki-plugin-foldedsection/issues) with your DokuWiki/PHP versions and a small wikitext example. No maintainer email is published; the issue tracker is the public support channel.
 
+## Acknowledgments
+
+Folded Section builds on the approach and visual design of the original [Folded plugin for DokuWiki](https://www.dokuwiki.org/plugin:folded), by Michael Hamann, Fabian van-de-l_Isle, Christopher Smith, and Esther Brunner, with contributions from its community. Its folding behavior and styled content area provided the starting point for this plugin. Thank you to the Folded authors and contributors for their work.
+
+The original project's [source repository](https://github.com/dokufreaks/plugin-folded) is available under GPL version 2. Folded Section adds its own `++==` syntax, inline bold/italic labels, and paragraph-aware block placement.
+
 ## License
 
 GPL-2.0-only. See [LICENSE](LICENSE).

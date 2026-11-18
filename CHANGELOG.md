@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 — 2026-11-18
+
+- Prepare public Extension Manager URL/upload installation and a DokuWiki plugin-directory page.
+- Declare PHP 8.2 minimum and advance the date used for update detection.
+- Exclude development/publication files from distribution archives.
+- Test installation and update using DokuWiki's native Extension Manager archive installer before running parser checks.
+
 ## 0.1.1 — 2026-11-17
 
 - Recognize `++==` sections inside paragraph-bearing plugin containers, including Wrap's `<div indent>` and `<WRAP>` blocks.

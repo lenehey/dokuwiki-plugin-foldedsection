@@ -12,11 +12,19 @@ jobs:
           git clone --depth 1 --branch stable https://github.com/dokuwiki/dokuwiki.git "$RUNNER_TEMP/dokuwiki"
           git clone --depth 1 https://github.com/dokufreaks/plugin-folded.git "$RUNNER_TEMP/dokuwiki/lib/plugins/folded"
           git clone --depth 1 https://github.com/selfthinker/dokuwiki_plugin_wrap.git "$RUNNER_TEMP/dokuwiki/lib/plugins/wrap"
-          mkdir -p "$RUNNER_TEMP/dokuwiki/lib/plugins/foldedsection"
-          cp -R helper.php plugin.info.txt syntax style.css script.js "$RUNNER_TEMP/dokuwiki/lib/plugins/foldedsection/"
       - name: Check PHP and JavaScript syntax
         run: |
           find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
           node --check script.js
-      - name: Run DokuWiki parser integration checks
+      - name: Build installable archive
+        run: git archive --format=zip --prefix=foldedsection/ --output="$RUNNER_TEMP/foldedsection.zip" HEAD
+      - name: Test native Extension Manager install and update
+        run: php tests/install.php "$RUNNER_TEMP/dokuwiki" "$RUNNER_TEMP/foldedsection.zip"
+      - name: Run DokuWiki parser integration checks on the installed package
         run: php tests/integration.php "$RUNNER_TEMP/dokuwiki"
+      - name: Save installable archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: foldedsection
+          path: ${{ runner.temp }}/foldedsection.zip
+          if-no-files-found: error

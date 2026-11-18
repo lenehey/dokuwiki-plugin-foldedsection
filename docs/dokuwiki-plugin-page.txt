@@ -1,0 +1,97 @@
+====== Folded Section Plugin ======
+
+---- plugin ----
+description: Inline bold/italic disclosure labels that expand a separate styled block below their paragraph.
+author     : Leonard Heyman
+email      :
+type       : syntax, helper
+lastupdate : 2026-11-18
+compatible : 2026-07-14
+depends    :
+conflicts  :
+similar    : folded
+tags       : folding, formatting, sections
+
+downloadurl: https://github.com/lenehey/dokuwiki-plugin-foldedsection/archive/refs/heads/main.zip
+bugtracker : https://github.com/lenehey/dokuwiki-plugin-foldedsection/issues
+sourcerepo : https://github.com/lenehey/dokuwiki-plugin-foldedsection
+donationurl:
+----
+
+The **Folded Section** plugin places a clickable label beside ordinary paragraph text and opens a separate, dotted-border content block directly below that paragraph. Labels support **bold**, //italics//, or both. Body content uses normal DokuWiki markup.
+
+===== Installation =====
+
+Use the [[plugin:extension|Extension Manager]] to install this plugin. In **Admin → Extension Manager → Manual Install**, paste the download URL above into the URL field and install it.
+
+Once this page is indexed in the DokuWiki plugin repository, you can also search for **foldedsection** in Extension Manager's **Search and Install** tab.
+
+The plugin's directory name is **foldedsection**. No other plugins are required. The original [[plugin:folded|folded plugin]] may remain installed and enabled.
+
+===== Requirements =====
+
+  * DokuWiki 2026-07-14 “Mort” (including maintenance releases).
+  * PHP 8.2 or later, subject to DokuWiki's own PHP requirements.
+  * JavaScript for collapsing and expanding. Without JavaScript all content remains visible.
+
+Earlier DokuWiki releases have not been tested. The [[plugin:wrap|Wrap plugin]] is optional and is needed only when using Wrap's container syntax such as ''<div indent>''.
+
+===== Syntax =====
+
+<code>
+**This is a heading** ++== //More details// |
+Expanded text expanded text expanded text.
+
+Another paragraph:
+  * First item
+  * Second item
+++==
+</code>
+
+The opening delimiter is ''++=='' followed by the label and ''|'' at the end of the introductory paragraph. The expanded body starts on the next line. Close it with ''++=='' on a line by itself.
+
+Labels support ''**bold**'', ''//italic//'', and ''**//both//**''. Links and other markup are literal label text; a label cannot contain a pipe character. Links in the expanded body work normally.
+
+The heading-like introduction is ordinary bold paragraph text, not an HTML heading.
+
+===== Wrap containers =====
+
+The complete section can be placed within Wrap's block containers:
+
+<code>
+<div indent>
+**Comparison with //another decision//** ++== (Read more) |
+
+The expanded comparison goes here.
+++==
+</div>
+</code>
+
+Both ''<div>'' and ''<WRAP>'' blocks are supported. Keep the closing ''++=='' inside the surrounding container.
+
+===== Appearance and accessibility =====
+
+The body has 0.5em padding and a one-pixel dotted border using the current template's border color. A disclosure triangle indicates the current state. Customize ''.foldedsection-toggle'', ''.foldedsection-indicator'', and ''.foldedsection-body'' with your wiki's user CSS.
+
+Enter and Space operate the control. The expanded state is exposed to assistive technology. Printed output includes collapsed content, and fragment links into a section open it.
+
+===== Limitations =====
+
+  * Nested folded sections are unsupported.
+  * Opening labels must be in ordinary paragraphs, not headings, lists, tables, or inline ''<wrap>'' elements.
+  * The body starts on a new line; text after the opening pipe on the same line is unsupported.
+  * Balance bold/italic markup in the introduction before the opening delimiter.
+
+===== Updating and troubleshooting =====
+
+Use Extension Manager to update the plugin. Keep the original folded plugin enabled for existing content that uses its syntax.
+
+If old output persists after an update, reload the page with the ''purge=true'' query parameter. Stray ''=='' characters can indicate an old version or another parser consuming the ''++'' characters; update Folded Section before changing existing wiki content.
+
+Report issues with your DokuWiki/PHP versions, enabled container plugins, and a minimal wikitext example at the bug tracker above.
+
+===== Development and license =====
+
+Source, changelog, automated parser checks, and native Extension Manager archive-install checks are maintained in the source repository.
+
+Licensed under the GNU General Public License version 2 only (GPL-2.0-only). See the LICENSE file.

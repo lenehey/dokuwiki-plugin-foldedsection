@@ -46,7 +46,26 @@ The expanded comparison goes here.
 
 ## Install
 
-Copy this repository into `lib/plugins/foldedsection/` in your DokuWiki installation. The folder name must be `foldedsection`, without a hyphen. Enable it in Extension Manager if necessary.
+Requires DokuWiki 2026-07-14 “Mort” (including maintenance releases) and PHP 8.2 or later. Earlier DokuWiki releases are not yet tested.
+
+### Using DokuWiki's admin interface
+
+1. Open **Admin → Extension Manager → Manual Install**.
+2. Paste this ZIP URL into the URL field and install:
+
+   https://github.com/lenehey/dokuwiki-plugin-foldedsection/archive/refs/heads/main.zip
+
+3. Check the installed plugin list for **Folded Section** and enable it if necessary.
+
+The URL must be downloadable without authentication: the GitHub repository must be **public**. The ZIP's outer directory name does not matter; Extension Manager reads `base foldedsection` from `plugin.info.txt` and installs into `lib/plugins/foldedsection/`.
+
+Once the plugin's page is published on dokuwiki.org and indexed, **Search and Install** can find `foldedsection`. Repository files alone do not register a plugin in that directory. See [publication instructions](docs/PUBLISHING.md) and the [ready-to-paste directory page](docs/dokuwiki-plugin-page.txt).
+
+You can also upload a ZIP through the same **Manual Install** tab. GitHub Actions produces a `foldedsection` artifact containing the installable `foldedsection.zip`; extract the artifact's outer ZIP first.
+
+### Manual file copy
+
+Copy the plugin into `lib/plugins/foldedsection/`. The folder name must be `foldedsection`, without a hyphen. Enable it in Extension Manager if necessary.
 
 The original **folded** plugin is not required; both plugins can be installed together. This plugin's parser takes priority for the `++==` opener.
 
@@ -66,7 +85,7 @@ Labels interpret only paired bold/italic markers. HTML is escaped, and no arbitr
 
 This is an initial implementation. Test on a staging wiki before production use.
 
-Run the integration checks against a DokuWiki installation containing the plugin:
+Run the parser integration checks against a DokuWiki installation containing the plugin:
 
 ```sh
 php tests/integration.php /path/to/dokuwiki
@@ -74,6 +93,20 @@ node --check script.js
 ```
 
 The integration checks exercise DokuWiki's actual parser/renderers: paragraph placement, body blocks, label formatting and escaping, multiple sections, unique IDs, protected code, malformed input, and coexistence with the original folded plugin when installed. With Wrap installed, they also check the indented comparison fixture and multiple sections inside `<div>` and `<WRAP>` blocks. GitHub Actions installs both plugins for these checks.
+
+The CI workflow first builds a distribution ZIP, uses DokuWiki's native Extension Manager installer to install and update it, and then runs the parser checks against that installed package. Development/publication files are excluded by `.gitattributes`.
+
+To reproduce the archive test, use a disposable DokuWiki installation without this plugin:
+
+```sh
+git archive --format=zip --prefix=foldedsection/ --output=foldedsection.zip HEAD
+php tests/install.php /path/to/disposable/dokuwiki foldedsection.zip
+php tests/integration.php /path/to/disposable/dokuwiki
+```
+
+## Support
+
+Report issues at [GitHub Issues](https://github.com/lenehey/dokuwiki-plugin-foldedsection/issues) with your DokuWiki/PHP versions and a small wikitext example. No maintainer email is published; the issue tracker is the public support channel.
 
 ## License
 

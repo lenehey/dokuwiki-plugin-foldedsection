@@ -1,0 +1,6 @@
+# Keep developer and publication files out of downloadable git/GitHub archives.
+.gitattributes export-ignore
+.gitignore export-ignore
+.github export-ignore
+docs export-ignore
+tests export-ignore
